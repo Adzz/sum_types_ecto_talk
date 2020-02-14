@@ -29,6 +29,14 @@ defmodule Reward do
     EctoMorph.cast_to_struct(reward, PrizeMoney)
   end
 
+  def cast(reward = %{"percentage_discount" => _}) do
+    EctoMorph.cast_to_struct(reward, DiscountVouchers)
+  end
+
+  def cast(reward = %{percentage_discount: _}) do
+    EctoMorph.cast_to_struct(reward, DiscountVouchers)
+  end
+
   def cast(reward), do: raise("We do not recognise that reward type! #{inspect(reward)}")
 
   @impl true
@@ -53,6 +61,14 @@ defmodule Reward do
     EctoMorph.cast_to_struct(reward, PrizeMoney)
   end
 
+  def dump(reward = %{percentage_discount: _}) do
+    EctoMorph.cast_to_struct(reward, DiscountVouchers)
+  end
+
+  def dump(reward = %{"percentage_discount" => _}) do
+    EctoMorph.cast_to_struct(reward, DiscountVouchers)
+  end
+
   @impl true
   @doc """
   Load gets whatever is in the db column and gives us the chance to turn it into our own struct. So
@@ -64,6 +80,10 @@ defmodule Reward do
 
   def load(reward = %{"amount" => _}) do
     EctoMorph.cast_to_struct(reward, PrizeMoney)
+  end
+
+  def load(reward = %{"percentage_discount" => _}) do
+    EctoMorph.cast_to_struct(reward, DiscountVouchers)
   end
 
   @impl true

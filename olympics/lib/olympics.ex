@@ -11,6 +11,8 @@ defmodule Olympics do
     #   reward: %{rank: "FIRST", amount: 20_000, championship_points_earned: 30}
     # }
 
+    data = %{name: "Jeff Vader", reward: %{percentage_discount: 10}}
+
     EctoMorph.generate_changeset(data, Athlete)
     |> Olympics.Repo.insert!()
   end
@@ -39,4 +41,11 @@ end
 
 defimpl DollarValue, for: PrizeMoney do
   def for(%{amount: amount}), do: amount
+end
+
+defimpl DollarValue, for: DiscountVouchers do
+  def for(%{percentage_discount: percentage_discount}) do
+    # ...
+    percentage_discount
+  end
 end
